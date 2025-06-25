@@ -7,27 +7,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class ="header">
-        <h1 class="h1">Quick Quiz</h1>
-        <p class="text">Test your knowledge with this quick quiz!</p>
-    </header>
-
-    <div class="container">
+<div class="container">
         <div id="quiz" class="justify-center flex-column">
             <div id="hud">
                 <div id="hud-item">
-                    <p class="hud-prefix">
+                    <p id="progressText"class="hud-prefix">
                         Question
-                    </p>
-                    <h3 class="hud-main-text">
-
-                    </h3>
+                    </p> 
+                    <h3 class="hud-main-text"id="questionCounter">
+                        1/4
+                    </h3>  
                 </div>
-            </div>
-            <div id="hud">
+
                 <div id="hud-item">
                     <p class="hud-prefix">
-                        Total Score
+                        Score
                     </p>
                     <h3 class="hud-main-text"id ="score ">
                         0
