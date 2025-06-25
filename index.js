@@ -2,15 +2,15 @@ const question = document.getElementById("question");
 const choices = Array.from(document.getElementsByClassName("choice-text"));
 //variables
 let currentQuestion = {};
-let acceptingAnswers = true;
+let acceptingAnswers = false ;
 let score = 0;
-let availableQuestions = [];
+let availableQuestions= [];
 let questionCounter = 0;
 //constants
-const CORRECRBONUS= 10;
-const MAX_QUESTIONS = 10;
+const CORRECT_BONUS= 10;
+const MAX_QUESTIONS = 4;
 //questions
-let questions = [ 
+let questions = [  
     {
         question: "What is the capital of France?",
         choice1: "Berlin",
@@ -76,12 +76,12 @@ let questions = [
         answer: 2,
     },
     {
-        question: "Who painted the Mona Lisa?",
-        choice1: "Vincent van Gogh",
-        choice2: "Pablo Picasso",
-        choice3: "Leonardo da Vinci",
-        choice4: "Claude Monet",
-        answer: 3,
+        question: "How many bones are in the human body",
+        choice1: "206",
+        choice2: "203",
+        choice3: "209",
+        choice4: "200",
+        answer: 1,
     },
     {
         question: "Which of the following was Brazil a former colony under:",
@@ -97,9 +97,10 @@ let questions = [
         choice2: " Green Bay Packers",
         choice3: "New York Giants",
         choice4: "Arizona Cardinals",
+        answer:4,
     },
     {
-        question: "What is the capital of Japan?",
+        question: "What is the capital city of Japan?",
         choice1: "Seoul",
         choice2: "Tokyo",
         choice3: "Beijing",
@@ -107,3 +108,53 @@ let questions = [
         answer: 2,
     }
 ];
+
+startGame = () => {
+    questionCounter = 0;
+    score = 0;
+    availableQuestions = [...questions];
+    console.log(availableQuestions);
+    getNewQuestion();
+}
+
+getNewQuestion = () => {
+    if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+        //go to the end page
+        return totalScore;
+    }
+    questionCounter++;
+    const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+    currentQuestion = availableQuestions[questionIndex];
+    question.innerText = currentQuestion.question;
+
+    choices.forEach(choice => {
+    const number = choice.dataset['number'];
+    choice.innerText = currentQuestion['choice' + number];
+    });
+
+    availableQuestions.splice(questionIndex,1);
+    acceptingAnswers = true;
+};
+
+choices.forEach(choice => {
+    choice.addEventListener("click", e => {
+        if (!acceptingAnswers) return;
+
+        acceptingAnswers = false;
+        const selectedChoice = e.target;
+        const selectedAnswer = selectedChoice.dataset["number"];
+
+        const classToApply = 
+            selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+
+            selectedChoice.parentElement.classList.add(classToApply);
+
+            setTimeout (() => {
+                getNewQuestion();
+                selectedChoice.parentElement.classList.remove(classToApply);
+            }, 1000);
+
+            
+    }) 
+})
+startGame();
