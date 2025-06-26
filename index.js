@@ -5,13 +5,13 @@ const scoreText = document.getElementById("score");
 
 //variables
 let currentQuestion = {};
-let acceptingAnswers = false ;
+let acceptingAnswers = true;
 let score = 0;
-let availableQuestions= [];
+let availableQuestions= 12;
 let questionCounter = 0;
 //constants
 const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 4;
+const MAX_QUESTIONS = 12;
 //questions
 let questions = [  
     {
@@ -112,40 +112,23 @@ let questions = [
     }
 ];
 //functions
-//start the game
-//this will reset the score and question counter
-//and set the available questions to the questions array
-//then it will call the getNewQuestion function to get the first question
-startGame = () => {
+
+let startGame = () => {
     questionCounter = 0;
     score = 0;
     availableQuestions = [...questions];
     console.log(availableQuestions);
     getNewQuestion();
 }
-//this function will get a new question from the available questions array
-//it will check if there are any available questions left
-//or if the question counter has reached the maximum number of questions
-//if there are no available questions left or the question counter has reached the maximum number of questions
-//it will return the score
-//otherwise, it will increment the question counter, update the question counter text,
-//get a random question from the available questions array, and set the current question
-//then it will update the question text and the choices text
-//finally, it will remove the question from the available questions array
-//and set acceptingAnswers to true to allow the user to select an answer
-getNewQuestion = () => {
-    if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
-        localStorage.setItem("mostRecentScore", score);
-        return window.location.assign("end.html");
-    }
+
+let getNewQuestion = () => {
+    
     questionCounter++;
     questionCounterText.innerText = `${questionCounter}/${MAX_QUESTIONS}`;
     const questionIndex = Math.floor(Math.random() * availableQuestions.length);
     currentQuestion = availableQuestions[questionIndex];
     question.innerText = currentQuestion.question;
-    //update the choices text
-    //this will set the text of each choice to the corresponding choice in the current question
-    //it will also set the data-number attribute of each choice to the corresponding choice number
+
     choices.forEach(choice => {
     const number = choice.dataset['number'];
     choice.innerText = currentQuestion['choice' + number];
@@ -154,11 +137,7 @@ getNewQuestion = () => {
     availableQuestions.splice(questionIndex,1);
     acceptingAnswers = true;
 };
-//add event listeners to choices
-//this is to allow the user to select an answer
-//and check if it is correct or incorrect
-//if the user selects an answer, the game will check if it is correct or incorrect
-//and then move on to the next question
+
 choices.forEach(choice => {
     choice.addEventListener("click", e => {
         if (!acceptingAnswers) return;
@@ -166,29 +145,26 @@ choices.forEach(choice => {
         acceptingAnswers = false;
         const selectedChoice = e.target;
         const selectedAnswer = selectedChoice.dataset["number"];
-        //check if the selected answer is correct or incorrect
-        const classToApply = 
-            selectedAnswer ===
-            currentQuestion.answer ? "correct" : "incorrect";
+    
+        const classToApply = selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
             
-            if (classToApply ===  'correct') {
+            if (classToApply === 'correct') {
                 incrementScore(CORRECT_BONUS);
             };
-            //apply the correct or incorrect class
+
             selectedChoice.parentElement.classList.add(classToApply);
-            //wait 1 second before getting a new question
-            //this is to allow the user to see if they got the question right or wrong
-            //before the next question appears
+
             setTimeout (() => {
-                getNewQuestion();
+
                 selectedChoice.parentElement.classList.remove(classToApply);
-            }, 1000);
+                getNewQuestion();
+            }, 500);
         });
     });
 
 //increment score
-incrementScore = num => {
-    score += num;
+let incrementScore = number => {
+    score += number;
     scoreText.innerText = score;
 }
 
