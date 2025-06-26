@@ -1,0 +1,23 @@
+{
+  "name": "phase-1-project",
+  "version": "0.17.4",
+  "description": "- This project is a simple quiz application built with Javascript. It allows users to take quizzes, view their scores, and manage questions.",
+  "homepage": "https://github.com/Eddah-Kibet/Phase-1-Project#readme",
+  "bugs": {
+    "url": "https://github.com/Eddah-Kibet/Phase-1-Project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eddah-Kibet/Phase-1-Project.git"
+  },
+  "license": "MIT",
+  "author": "EDDAH KIBET",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "json-server --watch db.json --port 3000"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}
